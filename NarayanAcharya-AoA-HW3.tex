@@ -142,7 +142,7 @@ To only find whether there exists a schedule where we can order all streams with
 \begin{enumerate}[(1)]
 \item Correctness: The approach ensures that all the processes are checked because we invoke the status check right before the end time of every process if it has not yet been checked. Thus it computes a valid set of status check invocation timings.
 
-\item Optimality: To argue that this approach computes the minimum number of status checks we use 'Greedy Algorithm Stays Ahead' argument. Consider, that our algorithm produces $ k $ status checks up to a certain process evaluation, and the set is denoted by $ S $. Also, there exists another set of status checks, $ S' $. We would like to show that $ S' $ too has at least $ k $ status checks up until the same process is evaluated. We prove this by induction:
+\item Optimality: To argue that this approach computes the minimum number of status checks we use 'Greedy Algorithm Stays Ahead' argument. Consider, that our algorithm produces $ k $ status checks up to a certain process evaluation, and the set is denoted by $ S $. Also, there exists another set of optimal status checks, $ S' $. We would like to show that $ S' $ too has at least $ k $ status checks up until the same process is evaluated. We prove this by induction:
 \begin{enumerate}
 	\item For $ n=1 $, both S and S' will have to have at least 1 status check.
 	\item For some $ n=m $, say $ S $ and $ S' $ have $ k $ status checks. 
