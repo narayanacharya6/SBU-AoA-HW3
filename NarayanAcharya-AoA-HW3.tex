@@ -119,8 +119,6 @@ t_{i1} < t_{i2} < t_{j1}
 
 In all cases $ t_{j1} $ is highest. That means our approach with the first option is not as good compared to our second options where we switched contestants and brought them in accordance of our proposed solution. Hence, it is better if we swap i and j.
 
-
-   
 \clearpage
 \section{Question 2} Textbook [Kleinberg \& Tardos] Chapter 4, page 190, problem \#12. \\
 \textbf{Solution:} \\
@@ -138,6 +136,24 @@ To only find whether there exists a schedule where we can order all streams with
 \clearpage
 \section{Question 3} Textbook [Kleinberg \& Tardos] Chapter 4, page 190, problem \#14. \\
 \textbf{Solution:} \\
+
+\begin{enumerate}[(a)]
+\item We wish to minimize the number of times we invoke the script to check our critical processes. The greedy approach to this would be holding off on the check as long as possible and doing one if absolutely necessary so that we don't miss a process. One approach would be to sort the processes according to their finish times and to invoke the status check right before the process finishes if the process has not been checked at least once prior. Let us consider the correctness and optimality of our approach.
+\begin{enumerate}[(1)]
+\item Correctness: The approach ensures that all the processes are checked because we invoke the status check right before the end time of every process if it has not yet been checked. Thus it computes a valid set of status check invocation timings.
+
+\item Optimality: To argue that this approach computes the minimum number of status checks we use 'Greedy Algorithm Stays Ahead' argument. Consider, that our algorithm produces $ k $ status checks up to a certain process evaluation, and the set is denoted by $ S $. Also, there exists another set of status checks, $ S' $. We would like to show that $ S' $ too has at least $ k $ status checks up until the same process is evaluated. We prove this by induction:
+\begin{enumerate}
+	\item For $ n=1 $, both S and S' will have to have at least 1 status check.
+	\item For some $ n=m $, say $ S $ and $ S' $ have $ k $ status checks. 
+	\item For $ n=m+1 $, we have two options, $ (m+1)^{th} $ overlaps or does not overlap with our current process. In case it does, our $ k^{th} $ status check in S will take care of the status check for $ (m+1)^{th} $ process. In case it does not, we will need to add our $ (k+1)^{th} $ status check at the finish time of the $ (m+1)^{th} $ process. In both cases, $ S' $ too will need to add at least one more check to cover the $ (m+1)^{th} $ process. Thus we have $ (k+1) $ checks for in both $ S $ and $ S' $.
+\end{enumerate}
+Thus our algorithm will perform at least as well any other optimal algorithm. The algorithm is bound by $ O(nlogn) $ - the amount it would required to sort the processes by their finishing times and $ O(n) $ - the amount of time to iterate over the sorted processes to insert the process checks. Thus, running time is bound by $ O(nlogn) $.
+
+\end{enumerate}
+
+\item 
+\end{enumerate}
 
 \clearpage
 \section{Question 4} Textbook [Kleinberg \& Tardos] Chapter 4, page 190, problem \#16. \\
