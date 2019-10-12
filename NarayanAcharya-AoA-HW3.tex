@@ -89,10 +89,50 @@
 \section{Question 1} Textbook [Kleinberg \& Tardos] Chapter 4, page 190, problem \#6. \\
 \textbf{Solution:} \\
 
+Let us say that the $ i^{th} $ contestant has a swimming, biking and running time denoted by $ s_i $, $ b_i $ and $ r_i $ respectively. We are to order the contestants such that the last contestant to finish has the earliest possible finishing time. We also have a constraint that no 2 contestants can have overlapping swimming times. Although, there is NO such constraint on their biking and running times. Let us consider the biking and running time of $ i^{th} $ contestant to be $ p_i $ where $ p_i = b_i + r_i $. \\
+
+Consider the following way of ordering the contestants to achieve our goal: We order them in decreasing order of $ p_i $. That is, for contestants $ i $ and $ j $, if $ i $ has a higher $ p_i $ then he/she goes before $ p_j $. We can argue that this is the most optimal way of ordering contestants by considering existence of another solution that does not follow above rule and is optimal. \\
+
+Consider that there exists an optimal solution different from the one proposed above such that for contestants $ i $ and $ j $, where $ i $ starts before $ j $ and $ p_i < p_j $. Given that i start before j, i will leave the pool earlier and. Time to complete the race from when $ i $ started: 
+\begin{equation*}
+	t_{i1} = s_i + p_i
+\end{equation*}
+\begin{equation*}
+	t_{j1} = s_i + s_j + p_j
+\end{equation*}
+Comparing the two, we can easily see that $ i $ will finish earlier (strike our $ s_i $ from both, $ p_i < p_j $ and $ s_j > 0 $). Thus, $ t_{i1} < t_{j1} $\\
+
+Let us swap i and j now and compare the times to complete from when $ j $ started:
+\begin{equation*}
+t_{j2} = s_j + p_j
+\end{equation*}
+\begin{equation*}
+t_{i2} = s_j + s_i + p_i
+\end{equation*}
+Comparing these with $t_{i1} $ and $ t_{j1} $, we can easily see that:
+\begin{equation*}
+t_{i1} < t_{j2} < t_{j1}
+\end{equation*}
+\begin{equation*}
+t_{i1} < t_{i2} < t_{j1}
+\end{equation*}
+
+In all cases $ t_{j1} $ is highest. That means our approach with the first option is not as good compared to our second options where we switched contestants and brought them in accordance of our proposed solution. Hence, it is better if we swap i and j.
+
+
    
 \clearpage
 \section{Question 2} Textbook [Kleinberg \& Tardos] Chapter 4, page 190, problem \#12. \\
 \textbf{Solution:} \\
+\begin{enumerate}[(a)]
+\item Our constraint is such that any time $ t $, the total number of bits we've sent through from time 0 to $ t $ cannot exceed $ rt $. The constraint does NOT bound number of bits we can send at any specific time $ t $. So, at any time we can send more bits than the rate specified, if we've sent lesser bits in the previous stream.
+
+So the constraint, $ b_i < rt_i $ only holds for the first stream of bits. Subsequent streams may or may not hold to this inequality. In either case they will still be valid. So the claim is false.
+
+\item We can use the 'Greedy Algorithm Stays Ahead' argument to prove our case. In order to find a valid and feasible schedule we sort by bits we need to transmit in each stream i.e. We sort by $ b_i/t_i $. In such an ordering we always transmit the least number of bits we can possibly send at that time. If at any time, our constraint does not hold true then there is no way we can send another stream of bits ahead of this as it will at least transmit as many bits as the current stream because we have sorted them in increasing order of bit-rate. The running time of this algorithm will be bound by $ O(nlogn) $, the amount of time we need to sort the streams in increasing order of bit-rate.
+
+To only find whether there exists a schedule where we can order all streams without breaking the constraint we simply keep of track of number of bits 'saved' at each transmission. Bits saved can be used to transmit another stream having a higher bit-rate than the allowed maximum rate of $ r $. In these cases, we can consider the bits saved to be negative. If the total sum of all such bits saved is greater than 0, then we can claim that we can order streams in some order without breaking the constraint. The running time for this will be $ O(n) $ as we only need to calculate bits saved at each bit-stream and keep track of total bits saved.
+\end{enumerate}
 
 
 \clearpage
