@@ -27,6 +27,7 @@
 % Package for displaying algorithms %
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\newcommand{\Break}{\State \textbf{break} }
 
 % Package for Bib in ToC %
 \usepackage[nottoc]{tocbibind}
@@ -162,6 +163,38 @@ Thus our algorithm will perform at least as well any other optimal algorithm. Th
 \clearpage
 \section{Question 4} Textbook [Kleinberg \& Tardos] Chapter 4, page 190, problem \#16. \\
 \textbf{Solution:} \\
+
+Consider the timestamps and error margins of for the $ i^{th} $ suspicious event be denoted by $ t_i $ and $ e_i $ respectively. The following Greedy Algorithm should provide us with a perfect matching between the recent events and the suspicious events, if one exists: \\
+
+Sort the recent events, $ x $, in ascending order of timestamp and the suspicious events, t, in ascending order of finish times i.e $ t_i+e_i $ for $ i^th $ suspicious event. Attempt to match each event in $ x $ with the suspicious event in t that finishes earliest. Once matched, remove the suspicious event matched from further consideration. Continue until all recent events are matched. If at any point, no recent event can be matched to a suspicious event then end the search as no perfect matching exists.
+
+\begin{breakablealgorithm}
+	\begin{algorithmic}[1]
+		\For{$ i \gets 1, 2, 3 \ldots n $}
+			\State $M[i] \gets None$
+			\State $ j \gets 0$
+			\While{$ j < size(t) $}
+				\If{ $ x[i] > t[j]-e[j] $ and $x[i] < t[j]+e[j]$ }
+					\State $ M[i] \gets (x[i], t[j])$.
+					\State Remove $ t[j] $
+					\Break
+				\EndIf
+				\State $ j \gets j+1$
+			\EndWhile
+			\If $M[i] = None$
+				\State \Return No perfect match exists!
+			\EndIf
+		\EndFor
+	\end{algorithmic}
+\end{breakablealgorithm}
+
+In order to prove correctness, we show that if a perfect matching exists then the above algorithm is bound to find it. We prove this using a combination of exchange argument and contradiction. Consider, the matches, $ M $, produced by our algorithm is incorrect there exists another set of pairs between the suspicious and recent events, say $ M' $ which is correct. Let us assume that the first $ i $ matches in $ M $ and $ M' $ are identical. $ M' $ matched element $ i+1 $ to another element, say $ t_k $ but $ M $ matches element $ x_i $ to $ t_j $. Given the behavior of our algorithm, we can claim that $ t_j+e_j < t_k+e_k $. Suppose $t_j$ is paired with some other element $ x_{>i+1} $. Drawing up the timeline would look like:
+\begin{equation*}
+t_j-e_j < x_i < x_{>i+1} < t_j+e_j < t_k+e_k
+\end{equation*}
+But from the above timeline we can easily that matching $ x_i $ to $ t_j $ and $ x_{>i+1} $ to $ t_k $ will also be a valid pairing. This pairing agrees with our algorithm M. Thus our choice of $ i $ was incorrect and should have been $ i+1 $. \\
+
+The running time of the above algorithm is bound by $ O(n^2) $ due to the two nested loops that iterate over $ n $. We have some sorting as well to do initially, but that is $ O(nlogn) $ which is upper bounded by $ O(n^2) $.
 
 \clearpage
 \section{Question 5} Textbook [Kleinberg \& Tardos] Chapter 5, page 246, problem \#1. \\
