@@ -2,6 +2,10 @@
 % Packages used by instructor %
 \usepackage{amsmath,amssymb,xspace,epsfig}
 
+\usepackage{mathtools}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
 % Package for new section on new page
 \usepackage{titlesec}
 
@@ -117,13 +121,13 @@ t_{i1} < t_{j2} < t_{j1}
 t_{i1} < t_{i2} < t_{j1}
 \end{equation*}
 
-In all cases $ t_{j1} $ is highest. That means our approach with the first option is not as good compared to our second options where we switched contestants and brought them in accordance of our proposed solution. Hence, it is better if we swap i and j.
+In all cases $ t_{j1} $ is highest. That means our approach with the first option is not as good compared to our second options where we switched contestants and brought them in accordance of our proposed solution. Hence, it is better if we swap $ i $ and $ j $. We can continue this argument for all such $ i $ and $ j $ to reach the same ordering as proposed by our algorithm.
 
 \clearpage
 \section{Question 2} Textbook [Kleinberg \& Tardos] Chapter 4, page 190, problem \#12. \\
 \textbf{Solution:} \\
 \begin{enumerate}[(a)]
-\item Our constraint is such that any time $ t $, the total number of bits we've sent through from time 0 to $ t $ cannot exceed $ rt $. The constraint does NOT bound number of bits we can send at any specific time $ t $. So, at any time we can send more bits than the rate specified, if we've sent lesser bits in the previous stream.
+\item Given constraint is such that any time $ t $, the total number of bits we've sent through from time 0 to $ t $ cannot exceed $ rt $. The constraint does NOT bound number of bits we can send at any specific time $ t $. So, at any time we can send more bits than the rate specified, if we've sent lesser bits in the previous stream.
 
 So the constraint, $ b_i < rt_i $ only holds for the first stream of bits. Subsequent streams may or may not hold to this inequality. In either case they will still be valid. So the claim is false.
 
@@ -149,10 +153,10 @@ To only find whether there exists a schedule where we can order all streams with
 	\item For $ n=m+1 $, we have two options, $ (m+1)^{th} $ overlaps or does not overlap with our current process. In case it does, our $ k^{th} $ status check in S will take care of the status check for $ (m+1)^{th} $ process. In case it does not, we will need to add our $ (k+1)^{th} $ status check at the finish time of the $ (m+1)^{th} $ process. In both cases, $ S' $ too will need to add at least one more check to cover the $ (m+1)^{th} $ process. Thus we have $ (k+1) $ checks for in both $ S $ and $ S' $.
 \end{enumerate}
 Thus our algorithm will perform at least as well any other optimal algorithm. The algorithm is bound by $ O(nlogn) $ - the amount it would required to sort the processes by their finishing times and $ O(n) $ - the amount of time to iterate over the sorted processes to insert the process checks. Thus, running time is bound by $ O(nlogn) $.
-
 \end{enumerate}
 
-\item 
+\item Our solution from above will produce $ k $ status checks as each one will be covering for at most one process from the $ k $ processes given that none of them overlap with another. If we can find the maximum number of non-overlapping processes, $ k^* $, then our algorithm will produce at least and at max $ k^* $ process checks. Reusing variables from previous part, we can say that $ |S| \leq k^* $ and $ |S| \geq k^* $ as well. Thus we can claim that $ |S| = k^* $. Hence, the claim of there being a stronger rule between number of status checks and max number of non-overlapping processes is true.
+
 \end{enumerate}
 
 \clearpage
@@ -163,17 +167,24 @@ Thus our algorithm will perform at least as well any other optimal algorithm. Th
 \section{Question 5} Textbook [Kleinberg \& Tardos] Chapter 5, page 246, problem \#1. \\
 \textbf{Solution:} \\
 
+The median elements is the average of $ (2n/2)^{th} $ and $ (2n/2 + 1)^{th} $ elements. There are $ n-1 $ elements smaller and $ n-1 $ larger than these two numbers. Another thing to note is that if we remove the same number of elements from the beginning and the end of such an array, the median will still remain the same. Also, we can consider the two databases, A and B, be equivalent to two sorted arrays where accessing the $ k^{th} $ element gives the $ k^{th} $ smallest elements in that array. With these things in mind, we can suggest a recursive solution to find the median of two arrays(read databases) with minimum number of array accesses(read database queries). \\
+
+Consider, accessing the $ k=\ceil*{n/2} $ element in both arrays, $ A $ and $ B $. If $ A[k] > B[k] $, then we can infer the following things:
+\begin{enumerate}
+\item $ B[k] $ is greater than at least the first $ k $ items in $ A $ and is greater than $ k-1 $ items in $ B $. Thus $ B[k] $ is greater than $ 2k-1 $ items in the combined arrays. Given our choice of $ k $, all elements greater than $ B[k] $ are greater than the median.
+\item For $ A[k] $, the first $ k $ elements are smaller than $ B[k] $ and thus are also smaller than all elements greater than $ B[k] $. They are also smaller than the second half of the elements in $ A $. Again, given our choice of $ k $ we can easily see that these all numbers less than $ A[k] $ are less than the median.
+\end{enumerate}
+We can now safely eliminate the first half of $ A $ and the second half of $ B $ from our consideration of median. Given we have removed equal number of elements from the beginning and the end, we can still claim that the median lies in the remaining set of elements and the median of this set will continue to remain the median of the whole set. \\
+
+We can continue to do this recursively by considering the new reduced arrays to find the median. Also, for $ A[k] < B[k] $ we can simply reverse the roles of $ A $ and $ B $ and arguments will still hold. \\
+
+Important thing to note here is that given these are actually databases and not arrays, we cannot simply drop parts of them from consideration. We achieve this by carefully updating the index to use for querying after each recursion. For eg. In our case, for $ A $ we drop the its first half. In the next recursion we simply add $ \floor*{n/2} $ to adjust for the indices we do query for. \\
+
+We have accessed our database only twice and reduced each array by half in the process. Essentially, our algorithm should be able to find the median in $ 2 \times logn $ steps or simplified $ O(logn) $.
+
 \clearpage
 \section{Question 6} Textbook [Kleinberg \& Tardos] Chapter 5, page 246, problem \#7. \\
 \textbf{Solution:} \\
 
-\clearpage
-\bibliographystyle{unsrt}
-\begin{thebibliography}{9}
-	\bibitem{} 
-	,
-	\\\texttt{}
-	
-\end{thebibliography}
 
 \end{document}
