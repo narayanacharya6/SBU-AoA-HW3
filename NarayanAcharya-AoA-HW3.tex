@@ -135,6 +135,21 @@ So the constraint, $ b_i < rt_i $ only holds for the first stream of bits. Subse
 \item We can use the 'Greedy Algorithm Stays Ahead' argument to prove our case. In order to find a valid and feasible schedule we sort by bits we need to transmit in each stream i.e. We sort by $ b_i/t_i $. In such an ordering we always transmit the least number of bits we can possibly send at that time. If at any time, our constraint does not hold true then there is no way we can send another stream of bits ahead of this as it will at least transmit as many bits as the current stream because we have sorted them in increasing order of bit-rate. The running time of this algorithm will be bound by $ O(nlogn) $, the amount of time we need to sort the streams in increasing order of bit-rate.
 
 To only find whether there exists a schedule where we can order all streams without breaking the constraint we simply keep of track of number of bits 'saved' at each transmission. Bits saved can be used to transmit another stream having a higher bit-rate than the allowed maximum rate of $ r $. In these cases, we can consider the bits saved to be negative. If the total sum of all such bits saved is greater than 0, then we can claim that we can order streams in some order without breaking the constraint. The running time for this will be $ O(n) $ as we only need to calculate bits saved at each bit-stream and keep track of total bits saved.
+
+\begin{breakablealgorithm}
+	\caption{Algorithm to find if valid schedule exists $O(n)$}
+	\begin{algorithmic}[1]
+		\State $ saved \gets 0$
+		\For{$ i \gets 1, 2, 3 \ldots n $}
+			\State $ saved \gets saved + rt_i-b_i$
+		\EndFor
+		\If {$saved \geq 0$}
+			\State \Return True
+		\Else \State \Return False
+		\EndIf
+	\end{algorithmic}
+\end{breakablealgorithm}
+
 \end{enumerate}
 
 
@@ -156,8 +171,12 @@ To only find whether there exists a schedule where we can order all streams with
 Thus our algorithm will perform at least as well any other optimal algorithm. The algorithm is bound by $ O(nlogn) $ - the amount it would required to sort the processes by their finishing times and $ O(n) $ - the amount of time to iterate over the sorted processes to insert the process checks. Thus, running time is bound by $ O(nlogn) $.
 \end{enumerate}
 
-\item Our solution from above will produce $ k $ status checks as each one will be covering for at most one process from the $ k $ processes given that none of them overlap with another. If we can find the maximum number of non-overlapping processes, $ k^* $, then our algorithm will produce at least and at max $ k^* $ process checks. Reusing variables from previous part, we can say that $ |S| \leq k^* $ and $ |S| \geq k^* $ as well. Thus we can claim that $ |S| = k^* $. Hence, the claim of there being a stronger rule between number of status checks and max number of non-overlapping processes is true.
-
+\item Our solution from above will produce $ k $ status checks as each one will be covering for at most one process from the $ k $ processes given that none of them overlap with another. Consider the following two arguments:
+\begin{enumerate}
+	\item If we can find the maximum number of non-overlapping processes, $ k^* $, then we need at least $ k^* $ checks. Reusing variable from the first part, we can say that $ |S| \geq k^* $. 
+	\item Our algorithm from above will at max produce $ k^* $ status checks for these processes Hence, we can say that $|S| \leq k^*$.
+\end{enumerate}
+Thus we can claim that $ |S| = k^* $. Hence, the claim of there being a stronger rule between number of status checks and max number of non-overlapping processes is true.
 \end{enumerate}
 
 \clearpage
