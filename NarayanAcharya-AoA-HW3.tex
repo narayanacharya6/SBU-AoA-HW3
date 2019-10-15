@@ -242,7 +242,7 @@ The essence of the question is to find a local minima element in a 2D-Matrix. \\
 
 Consider the following algorithm:
 \begin{enumerate}
-\item  Probe all the elements on the boundary, the middle row and middle column of our graph $ G $. (Let us call them periphery elements). [6n-4  or O(n) probes].
+\item  Probe all the elements on the boundary, the middle row and middle column of our graph $ G $. (Let us call them periphery elements). [6n-8  or O(n) probes].
 \item  Find the minimum element, say $ e $, in these probed nodes.
 \item  If $ e $ is a local minima stop the search and declare $ e $ as desired output.
 \item  If $ e $ is not a local minima then we select node, say $ f $, neighbor of $ e $ with least value. [1 or 2 probes]
