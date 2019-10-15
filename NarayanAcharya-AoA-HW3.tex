@@ -250,7 +250,7 @@ Consider the following algorithm:
 \end{enumerate}
 
 Correctness of above algorithm:
-We know that $ f $ does not lie on the border of our grid. And also $ f $ is smaller than all the elements that surround it \textbf{and} lie on the periphery of our initial search space, i.e the boundary, middle row and column. Thus $ f $ has to be an internal minimum of the graph $ G $. \\
+We know that $ f $ does not lie on the border of our grid. And also $ f $ is smaller than all the elements that surround it \textbf{and} lie on the periphery of our initial search space, i.e the boundary, middle row and column. Thus $ f $ has to be an internal minimum of the graph $ G $. Now we check if $ f $ is the local minimum using the same argument recursively. \\
 
 Running Time:
 We do work of order $ O(n) $ in each recursion and reduce the search from $ n \times n $ to $ \frac{n}{2} \times \frac{n}{2} $. We can right down the recurrence relation as follows:
