@@ -242,21 +242,21 @@ The essence of the question is to find a local minima element in a 2D-Matrix. \\
 
 Consider the following algorithm:
 \begin{enumerate}
-\item  Probe all the elements on the boundary, the middle row and middle column of our graph $ G $. [6n-4 probes].
+\item  Probe all the elements on the boundary, the middle row and middle column of our graph $ G $. (Let us call them periphery elements). [6n-4  or O(n) probes].
 \item  Find the minimum element, say $ e $, in these probed nodes.
 \item  If $ e $ is a local minima stop the search and declare $ e $ as desired output.
 \item  If $ e $ is not a local minima then we select node, say $ f $, neighbor of $ e $ with least value. [1 or 2 probes]
-\item  We continue our search with the quadrant of the graph that contains $ f $.
+\item  We continue our search with the quadrant of the graph that contains $ f $. [Important thing to note here is that the reduced search space will still contain our periphery elements to keep our search bounded.]
 \end{enumerate}
 
 Correctness of above algorithm:
 We know that $ f $ does not lie on the border of our grid. And also $ f $ is smaller than all the elements that surround it \textbf{and} lie on the periphery of our initial search space, i.e the boundary, middle row and column. Thus $ f $ has to be an internal minimum of the graph $ G $. \\
 
 Running Time:
-We do work of order $ O(n) $ in each recursion and reduce the search by a factor of 1/4. We can right down the recurrence relation as follows:
+We do work of order $ O(n) $ in each recursion and reduce the search from $ n \times n $ to $ \frac{n}{2} \times \frac{n}{2} $. We can right down the recurrence relation as follows:
 \begin{equation*}
-T(n) = T(n/4) + O(n)
+T(n) = T(n/2) + O(n)
 \end{equation*}
-Using Master's Theorem this reduces to $ T(n) = O(n) $
+Using Master's Theorem (or See Kleinberg \& Tardos, proof 5.5, page 219) this reduces to $ T(n) = O(n) $
 
 \end{document}
