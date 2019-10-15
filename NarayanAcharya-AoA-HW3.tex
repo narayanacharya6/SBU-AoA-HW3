@@ -211,7 +211,7 @@ In order to prove correctness, we show that if a perfect matching exists then th
 \begin{equation*}
 t_j-e_j < x_i < x_{>i+1} < t_j+e_j < t_k+e_k
 \end{equation*}
-But from the above timeline we can easily that matching $ x_i $ to $ t_j $ and $ x_{>i+1} $ to $ t_k $ will also be a valid pairing. This pairing agrees with our algorithm M. Thus our choice of $ i $ was incorrect and should have been $ i+1 $. \\
+But from the above timeline we can easily see that matching $ x_i $ to $ t_j $ and $ x_{>i+1} $ to $ t_k $ will also be a valid pairing. This pairing agrees with our algorithm M. Thus our choice of $ i $ was incorrect and should have been $ i+1 $. \\
 
 The running time of the above algorithm is bound by $ O(n^2) $ due to the two nested loops that iterate over $ n $. We have some sorting as well to do initially, but that is $ O(nlogn) $ which is upper bounded by $ O(n^2) $.
 
@@ -238,5 +238,25 @@ We have accessed our database only twice and reduced each array by half in the p
 \section{Question 6} Textbook [Kleinberg \& Tardos] Chapter 5, page 246, problem \#7. \\
 \textbf{Solution:} \\
 
+The essence of the question is to find a local minima element in a 2D-Matrix. \\
+
+Consider the following algorithm:
+\begin{enumerate}
+\item  Probe all the elements on the boundary, the middle row and middle column of our graph $ G $. [6n-4 probes].
+\item  Find the minimum element, say $ e $, in these probed nodes.
+\item  If $ e $ is a local minima stop the search and declare $ e $ as desired output.
+\item  If $ e $ is not a local minima then we select node, say $ f $, neighbor of $ e $ with least value. [1 or 2 probes]
+\item  We continue our search with the quadrant of the graph that contains $ f $.
+\end{enumerate}
+
+Correctness of above algorithm:
+We know that $ f $ does not lie on the border of our grid. And also $ f $ is smaller than all the elements that surround it \textbf{and} lie on the periphery of our initial search space, i.e the boundary, middle row and column. Thus $ f $ has to be an internal minimum of the graph $ G $. \\
+
+Running Time:
+We do work of order $ O(n) $ in each recursion and reduce the search by a factor of 1/4. We can right down the recurrence relation as follows:
+\begin{equation*}
+T(n) = T(n/4) + O(n)
+\end{equation*}
+Using Master's Theorem this reduces to $ T(n) = O(n) $
 
 \end{document}
